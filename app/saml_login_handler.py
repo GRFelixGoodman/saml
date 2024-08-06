@@ -23,7 +23,7 @@ class SamlLoginHandler(LoginHandlerInterface):
         # Only handle login if username and password are not included in the request. If username and password
         # are included, then this is a standard login request and should not redirect to SAML.
         data = await request.post()
-        if 'username' not in data and 'password' not in data:
+        if not data.get('username') and not data.get('password'):
             self.log.debug('Handling SAML login')
             await self.handle_login_redirect(request)
         else:
